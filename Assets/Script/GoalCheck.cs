@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class Out : MonoBehaviour
+public class GoalCheck : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -17,12 +17,10 @@ public class Out : MonoBehaviour
         
     }
 
-    void OnTriggerEnter2D(Collider2D other)
+    //タグPlayerと衝突したらシーンを切り替え
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (other.gameObject.tag == "Player")
-        {
-            Debug.Log("detection");
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-        }
+        Debug.Log("detection");
+        SceneManager.LoadScene("Stage02");
     }
 }
