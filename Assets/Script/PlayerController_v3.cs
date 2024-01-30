@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.AnimatedValues;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
@@ -9,6 +10,7 @@ using UnityEngine;
 public class PlayerController_v3 : MonoBehaviour
 {
     [SerializeField] private Rigidbody2D rb;
+    [SerializeField] private Animator anim = null;
     [SerializeField] private int moveSpeed;
     [SerializeField] private int jumpForse;
     private int isJumping = 0;
@@ -25,24 +27,24 @@ public class PlayerController_v3 : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.Space) && (isJumping == 0))
         {
             Jump();
-            Debug.Log("jump");
         }
     }
 
     void Jump()
     {
         rb.AddForce(Vector2.up * jumpForse, ForceMode2D.Impulse);
+        Debug.Log("jump");
     }
 
     private void OnTriggerStay2D()
     {
         isJumping = 0;
-        //Debug.Log("on");
+        anim.SetBool("jump", false);
     }
 
     private void OnTriggerExit2D()
     {
         isJumping = 1;
-        Debug.Log("off");
+        anim.SetBool("jump", true);
     }
 }
