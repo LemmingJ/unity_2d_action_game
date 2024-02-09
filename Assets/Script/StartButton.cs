@@ -19,7 +19,7 @@ public class StartButton : MonoBehaviour
 
     public void OnClick()
     {
-        SceneManager.LoadScene("Main");
+        SceneManager.LoadScene("Stage01");
         Debug.Log("changed the scene");
     }
 }
