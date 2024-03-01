@@ -1,23 +1,23 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.AnimatedValues;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(BoxCollider2D))]
 
 public class PlayerController_v3 : MonoBehaviour
 {
-    [SerializeField] private Rigidbody2D rb;
-    [SerializeField] private Animator anim = null;
-    [SerializeField] private int moveSpeed;
+    private Rigidbody2D rb;
+    private Animator anim = null;
     [SerializeField] private int jumpForse;
     private int isJumping = 0;
 
     // Start is called before the first frame update
     void Start()
     {
+        rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
     }
 
@@ -46,5 +46,24 @@ public class PlayerController_v3 : MonoBehaviour
     {
         isJumping = 1;
         anim.SetBool("jump", true);
+    }
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.tag == "OutArea")
+        {
+            Debug.Log("detection");
+            StartCoroutine("Corou1");
+            //SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
+    }
+
+    private IEnumerator Corou1()
+    {
+        rb.simulated = false;
+        anim.SetBool("dead", true);
+        yield return new WaitForSeconds(0.5f);
+        Destroy(this.gameObject);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }
