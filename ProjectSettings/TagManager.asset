@@ -8,6 +8,8 @@ TagManager:
   - OutArea
   - HeadCheck
   - FootCheck
+  - Apple
+  - Footing
   layers:
   - Default
   - TransparentFX

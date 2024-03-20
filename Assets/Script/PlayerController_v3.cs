@@ -62,14 +62,20 @@ public class PlayerController_v3 : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D other)
     {
-        onGround = 1;
-        anim.SetBool("jump", false);
+        if (other.gameObject.tag == "Ground" || other.gameObject.tag == "Footing")
+        {
+            onGround = 1;
+            anim.SetBool("jump", false);
+        }
     }
 
-    private void OnTriggerExit2D()
+    private void OnTriggerExit2D(Collider2D other)
     {
-        onGround = 0;
-        anim.SetBool("jump", true);
+        if (other.gameObject.tag == "Ground" || other.gameObject.tag == "Footing")
+        {
+            onGround = 0;
+            anim.SetBool("jump", true);
+        }
     }
 
     void OnCollisionEnter2D(Collision2D collision)
@@ -77,16 +83,13 @@ public class PlayerController_v3 : MonoBehaviour
         if (collision.gameObject.tag == "OutArea")
         {
             Debug.Log("detection");
-            StartCoroutine("Corou1");
-            //SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            rb.simulated = false;
+            anim.SetBool("dead", true);
         }
     }
 
-    private IEnumerator Corou1()
+    public void DeathAnimetionEnd()
     {
-        rb.simulated = false;
-        anim.SetBool("dead", true);
-        yield return new WaitForSeconds(0.5f);
         Destroy(this.gameObject);
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
@@ -96,7 +99,6 @@ public class PlayerController_v3 : MonoBehaviour
         if (collider.gameObject.tag == "Ground")
         {
             // 衝突したオブジェクトの名前をログに出力
-            Debug.Log("block");
             jumpTime = 20;
         }
     }
